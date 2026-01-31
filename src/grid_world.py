@@ -88,22 +88,22 @@ class GridWorld(object):
 
         partial_prob = 0
 
-        if self.state_reward(side_move_1[0], side_move_1[1]) != Cell.Wall.value:
+        if not np.isnan(self.state_reward(side_move_1[0], side_move_1[1])):
             distribution[side_move_1] = self.side_prob
         else:
             distribution[(row, col)] += self.side_prob
 
-        if self.state_reward(side_move_2[0], side_move_2[1]) != Cell.Wall.value:
+        if not np.isnan(self.state_reward(side_move_2[0], side_move_2[1])):
             distribution[side_move_2] = self.side_prob
         else:
             distribution[(row, col)] += self.side_prob
 
         partial_prob += 2 * self.side_prob
 
-        if self.state_reward(main_move[0], main_move[1]) != Cell.Wall.value:
-            distribution[main_move] = partial_prob
+        if not np.isnan(self.state_reward(main_move[0], main_move[1])):
+            distribution[main_move] = 1 - partial_prob
         else:
-            distribution[(row, col)] += partial_prob
+            distribution[(row, col)] += 1 - partial_prob
 
         return distribution
 
