@@ -122,3 +122,6 @@ class GridWorld(object):
 
     def copy_map(self):
         return np.copy(self.map)
+
+    def print_map(self):
+        print(self.map)
