@@ -20,6 +20,7 @@ class GridWorld(object):
         if side_prob > 0.5:
             side_prob = 0.1
         self.side_prob = side_prob
+        self.reset_map()
 
     def randomize(self, num_walls = 0, num_traps = 1, num_goal = 1, seed = None):
         if num_walls + num_traps + num_goal > self.width * self.height :
@@ -75,11 +76,11 @@ class GridWorld(object):
 
         main_move = self.__apply_action(row, col, action)
         if action == Action.UP or action == Action.DOWN:
-            side_move_1 = self.__apply_action(row, col, action.LEFT)
-            side_move_2 = self.__apply_action(row, col, action.RIGHT)
+            side_move_1 = self.__apply_action(row, col, Action.LEFT)
+            side_move_2 = self.__apply_action(row, col, Action.RIGHT)
         else:
-            side_move_1 = self.__apply_action(row, col, action.UP)
-            side_move_2 = self.__apply_action(row, col, action.DOWN)
+            side_move_1 = self.__apply_action(row, col, Action.UP)
+            side_move_2 = self.__apply_action(row, col, Action.DOWN)
 
         distribution[main_move] = 0
         distribution[side_move_1] = 0
@@ -118,3 +119,6 @@ class GridWorld(object):
         if action == Action.RIGHT:
             col += 1
         return row, col
+
+    def copy_map(self):
+        return np.copy(self.map)
