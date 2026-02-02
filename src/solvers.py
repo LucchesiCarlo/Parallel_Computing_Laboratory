@@ -69,7 +69,7 @@ def process_solve_problem(output_file, size, wall_ratio = 0.05, threads = 8, see
     while utils.nan_norm(input, output) > EPSILON:
         args = (input, output, world)
         kwargs = [{"start": i * chunks, "end": (i + 1) * chunks} for i in range(threads)]
-        results = Parallel(n_jobs=threads, prefer="threads")(delayed(vi.sync_optimality_bellman)(*args, **kwargs[i]) for i in range(threads))
+        results = Parallel(n_jobs=threads)(delayed(vi.sync_optimality_bellman)(*args, **kwargs[i]) for i in range(threads))
         output = np.concatenate(results)
         input, output = output, input
 
