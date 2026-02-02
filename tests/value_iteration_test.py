@@ -20,7 +20,7 @@ class ValueIterationTest(unittest.TestCase):
 
     def test_value_iteration_sync(self):
         supposed_output = np.array([0, 0, 0.76, 1,
-                                          0, np.NaN, 0, -1,
+                                          0, np.nan, 0, -1,
                                           0, 0, 0, 0] , dtype = float)
         vi.sync_optimality_bellman(self.input, self.output, self.world)
 
@@ -29,7 +29,7 @@ class ValueIterationTest(unittest.TestCase):
 
     def test_value_iteration_sync_two_spet(self):
         supposed_output = np.array([0, 0.5776, 0.8322, 1,
-                                          0, np.NaN, 0.4826, -1,
+                                          0, np.nan, 0.4826, -1,
                                           0, 0, 0, 0] , dtype = float)
         vi.sync_optimality_bellman(self.input, self.output, self.world)
         vi.sync_optimality_bellman(self.output, self.input, self.world)
