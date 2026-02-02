@@ -3,8 +3,10 @@ import csv
 import numpy as np
 import os
 
-def nan_norm(a, b):
-    c = a - b
+def nan_dist(a, b):
+    return nan_norm(a - b)
+
+def nan_norm(c):
     return np.linalg.norm(c[~np.isnan(c)])
 
 def save_on_csv(filename, time, threads, size):

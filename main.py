@@ -1,16 +1,20 @@
+import itertools
+
 from src import solvers
-from src.utils import nan_norm
+from src import async_test
+from src import process_test
+from src import threads_test
 
 if __name__ == '__main__':
-    size = 100
+    sizes = range(50, 151, 25)
     seed = 671278
-    reference = solvers.solve_problem("sequential.csv", size, seed = seed)
-    #solvers.process_solve_problem("process.csv", size, threads = 4, seed = seed)
-    #solvers.thread_solve_problem("thread.csv", size, threads = 4, seed = seed)
-
-    result_1 = solvers.solve_problem_async("async.csv", size, reference, seed = seed, EPSILON = 0.01)
-    result_2 = solvers.solve_problem_async_threads("async_locks.csv", size, reference, threads = 4, seed = seed, EPSILON = 0.01)
-    result_3 = solvers.solve_problem_async_race("async_race.csv", size, reference, threads = 4, seed = seed, EPSILON = 0.01)
-
-    print(f"Difference with locks: {nan_norm(result_1, result_2)}")
-    print(f"Difference without locks: {nan_norm(result_1, result_3)}")
+    MAX_THREADS = 8
+    threads = range(1, MAX_THREADS + 1)
+    ITER = 6
+    for size in sizes:
+        reference = solvers.solve_problem("results/reference.csv", size, seed = seed)
+        for t in threads:
+            for _ in range(ITER):
+                process_test.process_test(size, t, seed)
+                threads_test.threads_test(size, t, seed)
+                async_test.async_test(size, t, seed, reference)
