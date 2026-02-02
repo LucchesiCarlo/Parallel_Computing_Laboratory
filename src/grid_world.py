@@ -5,7 +5,7 @@ class Cell(float, Enum):
     Free = 0
     Goal = 1
     Trap = -1
-    Wall = np.NaN
+    Wall = np.nan
 
 class Action(Enum):
     UP, DOWN, LEFT, RIGHT = range(4)

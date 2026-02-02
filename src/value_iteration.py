@@ -4,8 +4,9 @@ from src.grid_world import GridWorld, Action
 
 
 def sync_optimality_bellman(input: np.ndarray, output: np.ndarray, world: GridWorld, start = 0, end = -1, gamma = 0.95):
-    if end == -1:
+    if end == -1 or end > len(input):
         end = len(input)
+
     for i in range(start, end):
         row = i // world.width
         col = i % world.width
@@ -22,3 +23,5 @@ def sync_optimality_bellman(input: np.ndarray, output: np.ndarray, world: GridWo
             values[j] = reward
 
         output[i] = np.max(values)
+
+    return output[start:end]
