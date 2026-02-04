@@ -16,4 +16,23 @@ In fact, even if it requires more iterations, it takes less to converge.
 Also, it needs only one array, increasing the maximum world usable.
 However, this type of update has data flow dependencies, and it's harder to parallelize.
 
-In this project work, there will be presented several parallel version with the goal to see what can get better performance. 
+In this project work, there will be presented several parallel version with the goal to see what can get better performance.
+
+### GIL Free environment
+To reproduce the python environment used in this project work, it can be reproduced using the `requirements.txt` file.
+Due to some issued not resolved, Joblib is not reported correctly. So, it's possible that the code will crash due to a not proper installation of the `distutils`.
+This can ben easily be resolved updating Joblib using pip:
+```commandline
+pip install --upgrade joblib
+```
+
+## Run the Experiments
+All the tests done in this experiments can be simply done executing `main.py` in a GIL free environment.
+```commandline
+python main.py
+```
+
+**Attention:** tests will require several hours.
+
+## Prints results
+The `plot_results.ipynb` notebook is used to plot all the results. To generate the graphs present inside the report, they are inside the `results.zip` file.
