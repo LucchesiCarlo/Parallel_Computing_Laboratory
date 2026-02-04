@@ -53,7 +53,7 @@ def thread_solve_problem(output_file, size, wall_ratio = 0.05, threads = 8, seed
     return output
 
 
-def process_solve_problem(output_file, size, wall_ratio = 0.05, threads = 8, seed = None, EPSILON = 0.0001):
+def joblib_solve_problem(output_file, size, wall_ratio = 0.05, threads = 8, seed = None, EPSILON = 0.0001, backend = "loky"):
     world = gw.GridWorld(size, size)
     world.randomize(seed=seed, num_walls=round((size ** 2) * wall_ratio))
 
@@ -65,7 +65,7 @@ def process_solve_problem(output_file, size, wall_ratio = 0.05, threads = 8, see
     while utils.nan_dist(input, output) / utils.nan_norm(input) > EPSILON:
         args = (input, output, world)
         kwargs = [{"start": i * chunks, "end": (i + 1) * chunks} for i in range(threads)]
-        results = Parallel(n_jobs=threads)(delayed(vi.sync_optimality_bellman)(*args, **kwargs[i]) for i in range(threads))
+        results = Parallel(n_jobs=threads, backend=backend)(delayed(vi.sync_optimality_bellman)(*args, **kwargs[i]) for i in range(threads))
         output = np.concatenate(results)
         input, output = output, input
 
@@ -111,7 +111,7 @@ def solve_problem_async_threads(output_file, size, target, threads = 8, wall_rat
     time_taken = end_time - start_time
     print("Completion Time: ", time_taken)
     print("Termination meet with: ", utils.nan_dist(input, target) / utils.nan_norm(target))
-    save_on_csv(output_file, time_taken, 1, size ** 2)
+    save_on_csv(output_file, time_taken, threads, size ** 2)
     return input
 
 def solve_problem_async_race(output_file, size, target, threads = 8, wall_ratio = 0.05, seed = None, EPSILON = 0.0001):
@@ -131,5 +131,5 @@ def solve_problem_async_race(output_file, size, target, threads = 8, wall_ratio 
     time_taken = end_time - start_time
     print("Completion Time: ", time_taken)
     print("Termination meet with: ", utils.nan_dist(input, target) / utils.nan_norm(target))
-    save_on_csv(output_file, time_taken, 1, size ** 2)
+    save_on_csv(output_file, time_taken, threads, size ** 2)
     return input

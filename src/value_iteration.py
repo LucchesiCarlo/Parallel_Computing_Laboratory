@@ -54,8 +54,8 @@ def async_optimality_bellman_locks(input: np.ndarray, world: GridWorld, locks, g
     actions = [a for a in Action]
     values = np.zeros_like(actions, dtype = float)
 
-    for x in range(-1, 2):
-        for y in range(-1, 2):
+    to_lock = [(0, -1), (-1, 0), (0, 0), (1, 0), (0, 1)]
+    for x, y in to_lock:
             if (0 <= (y + row) < world.height) and (0 <= (x + col) < world.width):
                 locks[(y + row) * world.width + x + col].acquire()
 
@@ -68,8 +68,7 @@ def async_optimality_bellman_locks(input: np.ndarray, world: GridWorld, locks, g
         values[j] = reward
 
     input[i] = np.max(values)
-    for x in range(-1, 2):
-        for y in range(-1, 2):
+    for x, y in to_lock:
             if (0 <= (y + row) < world.height) and (0 <= (x + col) < world.width):
                 locks[(y + row) * world.width + x + col].release()
 

@@ -1,10 +1,10 @@
 from src import solvers
 
 if __name__ == '__main__':
-    size = 50
+    size = 100
     seed = 671278
 
-    threads = 4
+    threads = 8
     print("Sequential")
     reference = solvers.solve_problem("trash.csv", size, seed = seed)
     print("Joblib (Process)")
