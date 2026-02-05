@@ -3,9 +3,12 @@ import csv
 import numpy as np
 import os
 
+#Allows to calculate a distance base on the norm of vectors that has NaN values.
 def nan_dist(a, b):
     return nan_norm(a - b)
 
+
+#Allows to calculate the norm of vectors that has NaN values.
 def nan_norm(c):
     return np.linalg.norm(c[~np.isnan(c)])
 

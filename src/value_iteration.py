@@ -2,8 +2,9 @@ import numpy as np
 
 from src.grid_world import GridWorld, Action
 
+#Different implementations of iteration for different Value Iteration algorithm
 
-def sync_optimality_bellman(input: np.ndarray, output: np.ndarray, world: GridWorld, start = 0, end = -1, gamma = 0.95):
+def sync_optimality_bellman(input: np.ndarray, output: np.ndarray, world: GridWorld, start: int = 0, end: int = -1, gamma: float = 0.95):
     if end == -1 or end > len(input):
         end = len(input)
 
@@ -26,7 +27,7 @@ def sync_optimality_bellman(input: np.ndarray, output: np.ndarray, world: GridWo
 
     return output[start:end]
 
-def async_optimality_bellman(input: np.ndarray, world: GridWorld, gamma = 0.95):
+def async_optimality_bellman(input: np.ndarray, world: GridWorld, gamma: float = 0.95):
     i = np.random.randint(0, len(input))
     row = i // world.width
     col = i % world.width
@@ -46,7 +47,7 @@ def async_optimality_bellman(input: np.ndarray, world: GridWorld, gamma = 0.95):
 
     return (i, input[i])
 
-def async_optimality_bellman_locks(input: np.ndarray, world: GridWorld, locks, gamma = 0.95):
+def async_optimality_bellman_locks(input: np.ndarray, world: GridWorld, locks, gamma: float = 0.95):
     i = np.random.randint(0, len(input))
     row = i // world.width
     col = i % world.width
